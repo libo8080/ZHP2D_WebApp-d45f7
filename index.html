@@ -530,8 +530,7 @@ nav.tabs{background:rgba(255,255,255,.94);border:none;box-shadow:0 -8px 30px rgb
 .fan-model-control{position:absolute;left:18px;top:18px;z-index:8;display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid rgba(62,184,154,.13);border-radius:15px;background:rgba(249,253,251,.92);box-shadow:0 8px 24px rgba(36,88,72,.09);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#76827d;font:600 9px/1 'MiSans','PingFang SC',sans-serif;letter-spacing:.05em;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}.fan-model-control:focus-visible{outline:2px solid rgba(61,182,143,.45);outline-offset:2px}.fan-model-switch{position:relative;width:30px;height:17px;flex:none;border-radius:999px;background:#cfd8d4;box-shadow:inset 0 1px 2px rgba(36,63,54,.14);transition:background .22s ease}.fan-model-switch::after{content:'';position:absolute;left:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(36,63,54,.22);transition:transform .22s ease}.fan-model-control[aria-checked="true"]{color:#229c70}.fan-model-control[aria-checked="true"] .fan-model-switch{background:#44c49b}.fan-model-control[aria-checked="true"] .fan-model-switch::after{transform:translateX(13px)}
 .charge-eta-card{position:absolute;left:18px;bottom:18px;z-index:7;min-width:122px;padding:11px 13px;border:1px solid rgba(62,184,154,.13);border-radius:17px;background:rgba(249,253,251,.92);box-shadow:0 8px 24px rgba(36,88,72,.09);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-variant-numeric:tabular-nums;pointer-events:none}
 .charge-eta-head{display:flex;align-items:center;gap:6px;color:#76827d;font-size:9px;letter-spacing:.08em}.charge-eta-head svg{width:13px;height:13px;color:#3db68f;stroke-width:2}.charge-eta-value{margin-top:5px;color:#229c70;font-size:17px;font-weight:760;line-height:1.1;letter-spacing:-.025em}.charge-eta-detail{margin-top:4px;color:#8b9691;font-size:8px;line-height:1.25}.charge-eta-card[data-state="idle"] .charge-eta-value,.charge-eta-card[data-state="waiting"] .charge-eta-value{color:#75807c}.charge-eta-card[data-state="full"] .charge-eta-value{color:#21a46f}.charge-eta-card[data-state="discharging"] .charge-eta-value,.charge-eta-card[data-state="discharging"] .charge-eta-head svg{color:var(--red)}
-.model-position-editor{display:none;position:absolute;right:10px;top:10px;z-index:11;align-items:flex-end;flex-direction:column;gap:7px}.model-position-trigger{border:1px solid rgba(62,184,154,.18);border-radius:13px;padding:8px 10px;background:rgba(249,253,251,.94);box-shadow:0 8px 22px rgba(36,88,72,.09);color:#66736e;font:700 9px/1 'MiSans','PingFang SC',sans-serif}.model-position-trigger[aria-pressed="true"]{color:#fff;background:#44bda2}.model-position-panel{width:116px;padding:8px;border:1px solid rgba(62,184,154,.18);border-radius:15px;background:rgba(249,253,251,.96);box-shadow:0 10px 28px rgba(36,88,72,.12);backdrop-filter:blur(12px)}.model-position-panel[hidden]{display:none}.model-position-readout{text-align:center;color:#66736e;font:700 9px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace}.model-position-hint{margin:4px 0 6px;text-align:center;color:#98a29e;font-size:7px}.model-position-pad{display:grid;grid-template-columns:repeat(3,30px);justify-content:center;gap:4px}.model-position-pad button{height:26px;border:0;border-radius:8px;background:#edf6f3;color:#289f84;font-size:13px;font-weight:800}.model-position-pad button:active{background:#d9efe8}.model-position-pad .model-position-reset{grid-column:1/-1;height:23px;color:#74807b;font-size:8px}.power-device.model-positioning{cursor:move;outline:1px dashed rgba(52,184,153,.45);outline-offset:-12px}
-.power-device{width:290px;height:350px;padding:0;border:0;background:transparent;box-shadow:none;position:relative;overflow:visible;touch-action:none}
+.power-device{width:290px;height:350px;padding:0;border:0;background:transparent;box-shadow:none;position:relative;overflow:visible}
 .model-loading-shell{position:absolute;inset:12% 20%;border:1px solid rgba(80,113,103,.22);border-radius:28px;background:linear-gradient(145deg,rgba(231,241,237,.38),rgba(255,255,255,.74));box-shadow:inset 0 0 0 7px rgba(255,255,255,.34),0 16px 30px rgba(65,92,83,.07);overflow:hidden;opacity:.72}
 .model-loading-shell::before{content:'';position:absolute;inset:-30%;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.9) 49%,transparent 60%);animation:modelSkeletonShimmer 1.7s ease-in-out infinite}
 .model-loading-shell::after{content:'';position:absolute;left:17%;right:17%;bottom:13%;height:42%;border-radius:11px;background:rgba(91,200,157,.12);box-shadow:0 -34px 0 -25px rgba(80,113,103,.11),0 -62px 0 -27px rgba(80,113,103,.08)}
@@ -627,8 +626,8 @@ html[data-theme="dark"] .setting{border-color:#28312e}html[data-theme="dark"] .s
 html[data-theme="dark"] #connect-card .connect-hero{background:radial-gradient(circle at 50% 28%,#1b2421 0,#121816 58%,#0d1110 100%)}html[data-theme="dark"] .connect-hero .big-logo{background:#1c2522}html[data-theme="dark"] .connect-hero h2{color:#eef4f1}html[data-theme="dark"] .connect-hero p{color:#9aa6a1}
 
 @media(max-width:520px){.operation-row{grid-template-columns:1fr auto;gap:10px 7px}.operation-electrical{grid-column:1/-1;grid-row:2;width:100%;max-width:none;padding:10px 0;border-radius:16px;background:rgba(255,255,255,.55)}.charge-eta-card{left:10px;bottom:10px;min-width:88px;max-width:98px;padding:8px 9px;border-radius:14px}.charge-eta-head{gap:4px;font-size:8px;letter-spacing:.04em}.charge-eta-head svg{width:11px;height:11px}.charge-eta-value{margin-top:4px;font-size:14px}.charge-eta-detail{margin-top:3px;font-size:7px;line-height:1.2}html[data-theme="dark"] .operation-electrical{background:rgba(255,255,255,.035)}}
-@media(max-width:699px){.model-position-editor{display:flex}.power-stage .power-device{--model-x:88px}}
-@media(max-width:420px){header{padding-left:16px;padding-right:16px}.top-row{gap:7px}.brand{gap:8px;min-width:0}.brand h1{font-size:14px;white-space:nowrap}.brand small{display:none}.logo{width:36px;height:36px;flex:none}.actions{gap:5px}.pill{padding:5px 7px}.theme-toggle{width:34px;height:34px;flex:none}main{padding-left:12px;padding-right:12px}.device-connected{font-size:25px}.power-stage{min-height:360px}.fan-model-control{left:12px;top:12px;padding:7px 8px;gap:6px}.charge-eta-card{left:12px;bottom:12px;min-width:112px;padding:10px 11px}.power-device{width:260px;height:320px}.power-stage .power-device{--model-x:58px}.charger-head{left:.8%;top:45%;width:72px;height:92px;border-radius:17px}.charger-head::after{border-radius:13px}.charger-bolt{font-size:22px;margin-bottom:10px}.charger-power b{font-size:15px}.charger-power small{font-size:8px}.operation-row{margin-left:0;margin-right:0}.operation-state{gap:11px;font-size:23px}.home-total-power-value{font-size:30px}.home-total-power-caption{font-size:9px;margin-top:5px}.power-profile-buttons{gap:7px}.power-profile-wrap{width:54px;height:29px}.power-profile{width:54px;height:29px;padding:0;border-radius:9px;font-size:7.5px;letter-spacing:.02em}.eco-voltage-grid{gap:4px}.eco-profile-card{padding:16px}.quick-link{padding:14px;font-size:15px}.quick-icon{width:38px;height:38px}.summary-value{font-size:25px}#view-set .card{padding-left:12px;padding-right:12px}.grp-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:7px}.grp-tab{min-width:0;width:100%;padding:8px 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:0}.spinbox .sp-btn{width:24px}.spinbox .sp-val{min-width:46px;padding-left:4px;padding-right:4px}.setting .unit{min-width:0}}
+@media(max-width:699px){.power-stage .power-device{--model-x:62px;--model-y:0px}}
+@media(max-width:420px){header{padding-left:16px;padding-right:16px}.top-row{gap:7px}.brand{gap:8px;min-width:0}.brand h1{font-size:14px;white-space:nowrap}.brand small{display:none}.logo{width:36px;height:36px;flex:none}.actions{gap:5px}.pill{padding:5px 7px}.theme-toggle{width:34px;height:34px;flex:none}main{padding-left:12px;padding-right:12px}.device-connected{font-size:25px}.power-stage{min-height:360px}.fan-model-control{left:12px;top:12px;padding:7px 8px;gap:6px}.charge-eta-card{left:12px;bottom:12px;min-width:112px;padding:10px 11px}.power-device{width:260px;height:320px}.power-stage .power-device{--model-x:62px;--model-y:0px}.charger-head{left:.8%;top:45%;width:72px;height:92px;border-radius:17px}.charger-head::after{border-radius:13px}.charger-bolt{font-size:22px;margin-bottom:10px}.charger-power b{font-size:15px}.charger-power small{font-size:8px}.operation-row{margin-left:0;margin-right:0}.operation-state{gap:11px;font-size:23px}.home-total-power-value{font-size:30px}.home-total-power-caption{font-size:9px;margin-top:5px}.power-profile-buttons{gap:7px}.power-profile-wrap{width:54px;height:29px}.power-profile{width:54px;height:29px;padding:0;border-radius:9px;font-size:7.5px;letter-spacing:.02em}.eco-voltage-grid{gap:4px}.eco-profile-card{padding:16px}.quick-link{padding:14px;font-size:15px}.quick-icon{width:38px;height:38px}.summary-value{font-size:25px}#view-set .card{padding-left:12px;padding-right:12px}.grp-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;overflow:visible;gap:7px}.grp-tab{min-width:0;width:100%;padding:8px 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:0}.spinbox .sp-btn{width:24px}.spinbox .sp-val{min-width:46px;padding-left:4px;padding-right:4px}.setting .unit{min-width:0}}
 @media(max-width:420px){.charge-eta-card{left:8px;bottom:9px;min-width:84px;max-width:94px;padding:8px;border-radius:13px}.charge-eta-value{font-size:13px}}
 @media(min-width:700px){.power-stage{min-height:430px}.power-device{width:330px;height:400px}.quick-grid{grid-template-columns:repeat(2,1fr)}.device-home{padding-left:20px;padding-right:20px}}
 </style>
@@ -729,18 +728,6 @@ html[data-theme="dark"] #connect-card .connect-hero{background:radial-gradient(c
 
       <div class="power-stage">
         <button class="fan-model-control" id="btn-cooling-effects" type="button" role="switch" aria-checked="false" title="开启散热动效"><span>散热动效</span><span class="fan-model-switch" aria-hidden="true"></span></button>
-        <div class="model-position-editor" id="model-position-editor">
-          <button class="model-position-trigger" id="btn-model-position" type="button" aria-pressed="false">移动模型</button>
-          <div class="model-position-panel" id="model-position-panel" hidden>
-            <div class="model-position-readout" id="model-position-readout">X 0 · Y 0</div>
-            <div class="model-position-hint">拖动模型或点按微调</div>
-            <div class="model-position-pad">
-              <span></span><button type="button" data-model-dx="0" data-model-dy="-4">↑</button><span></span>
-              <button type="button" data-model-dx="-4" data-model-dy="0">←</button><button type="button" data-model-dx="0" data-model-dy="4">↓</button><button type="button" data-model-dx="4" data-model-dy="0">→</button>
-              <button class="model-position-reset" id="model-position-reset" type="button">恢复默认</button>
-            </div>
-          </div>
-        </div>
         <div class="charge-eta-card" id="charge-eta-card" data-state="idle" aria-live="polite">
           <div class="charge-eta-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="charge-eta-label">预计充满</span></div>
           <div class="charge-eta-value" id="charge-eta-value">--</div>
@@ -1238,27 +1225,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   };
   if(control)control.onclick=()=>applyCoolingEffects(control.getAttribute('aria-checked')!=='true');
   window.ZHP2D3D.init();applyCoolingEffects(false);
-  const positionButton=$('btn-model-position'),positionPanel=$('model-position-panel'),positionReadout=$('model-position-readout'),modelHost=$('power-device');
-  if(positionButton&&positionPanel&&positionReadout&&modelHost){
-    const cssNumber=name=>Number.parseFloat(getComputedStyle(modelHost).getPropertyValue(name))||0;
-    const state={x:cssNumber('--model-x'),y:cssNumber('--model-y'),enabled:false,dragging:false,adjusted:false,startX:0,startY:0,originX:0,originY:0};
-    const updateReadout=()=>{positionReadout.textContent='X '+Math.round(state.x)+' · Y '+Math.round(state.y);};
-    const applyPosition=()=>{
-      state.adjusted=true;
-      modelHost.style.setProperty('--model-x',state.x+'px');modelHost.style.setProperty('--model-y',state.y+'px');
-      updateReadout();
-      window.dispatchEvent(new Event('zhp2d:model-position'));
-    };
-    const syncResponsiveDefault=()=>{if(state.adjusted)return;state.x=cssNumber('--model-x');state.y=cssNumber('--model-y');updateReadout();window.dispatchEvent(new Event('zhp2d:model-position'));};
-    const setEditor=enabled=>{state.enabled=!!enabled;positionButton.setAttribute('aria-pressed',String(state.enabled));positionPanel.hidden=!state.enabled;modelHost.classList.toggle('model-positioning',state.enabled);};
-    positionButton.onclick=()=>setEditor(!state.enabled);
-    positionPanel.querySelectorAll('[data-model-dx]').forEach(button=>button.onclick=()=>{state.x+=Number(button.dataset.modelDx)||0;state.y+=Number(button.dataset.modelDy)||0;applyPosition();});
-    $('model-position-reset').onclick=()=>{state.adjusted=false;modelHost.style.removeProperty('--model-x');modelHost.style.removeProperty('--model-y');requestAnimationFrame(syncResponsiveDefault);};
-    modelHost.addEventListener('pointerdown',event=>{if(!state.enabled)return;state.dragging=true;state.startX=event.clientX;state.startY=event.clientY;state.originX=state.x;state.originY=state.y;modelHost.setPointerCapture?.(event.pointerId);event.preventDefault();});
-    modelHost.addEventListener('pointermove',event=>{if(!state.dragging)return;state.x=state.originX+event.clientX-state.startX;state.y=state.originY+event.clientY-state.startY;applyPosition();event.preventDefault();});
-    const stopDrag=()=>{state.dragging=false;};modelHost.addEventListener('pointerup',stopDrag);modelHost.addEventListener('pointercancel',stopDrag);
-    window.addEventListener('resize',()=>requestAnimationFrame(syncResponsiveDefault));syncResponsiveDefault();
-  }
 });
 
 /* ===================== outward power particles ===================== */
@@ -1284,7 +1250,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     emissionBounds={left:d.left-r.left+d.width*.28,right:d.right-r.left-d.width*.28,top:d.top-r.top+d.height*.12,bottom:d.bottom-r.top-d.height*.12};
     windStreaks.length=0;
   }
-  const particleResizeObserver=new ResizeObserver(resize);particleResizeObserver.observe(stage);particleResizeObserver.observe(device);window.addEventListener('zhp2d:model-position',resize);resize();
+  const particleResizeObserver=new ResizeObserver(resize);particleResizeObserver.observe(stage);particleResizeObserver.observe(device);resize();
   function spawn(){
     const e=emissionBounds;if(!e||e.right<=e.left||e.bottom<=e.top)return;
     const fx=window.ZHP2D_POWER_FX,ratio=fx.ratio;
