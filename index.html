@@ -567,7 +567,7 @@ nav.tabs{background:rgba(255,255,255,.94);border:none;box-shadow:0 -8px 30px rgb
 .home-total-power-value{display:flex;align-items:baseline;font-size:40px;font-weight:720;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
 .home-total-power-value small{font-size:15px;font-weight:500;color:#68736f;margin-left:4px;letter-spacing:0}
 .home-total-power-caption{font-size:11px;font-weight:500;color:#7b8581;margin-top:7px;letter-spacing:.04em}
-.operation-electrical{display:grid;grid-template-columns:1fr 1fr;align-items:center;min-width:116px;max-width:180px;justify-self:center;color:#202624}
+.operation-electrical{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;min-width:174px;max-width:270px;justify-self:center;color:#202624}
 .operation-electrical-item{text-align:center;line-height:1;font-variant-numeric:tabular-nums}.operation-electrical-item+.operation-electrical-item{border-left:1px solid #dfe7e3}
 .operation-electrical-value{display:flex;justify-content:center;align-items:baseline;gap:2px;font-size:17px;font-weight:650;letter-spacing:-.025em}.operation-electrical-value small{font-size:9px;font-weight:500;color:#74807b;letter-spacing:0}
 .operation-electrical-label{margin-top:6px;color:#8a9591;font-size:9px;letter-spacing:.03em}
@@ -766,6 +766,7 @@ html[data-theme="dark"] #connect-card .connect-hero{background:radial-gradient(c
         <div class="operation-electrical" aria-label="实时母线电压和电流">
           <div class="operation-electrical-item"><div class="operation-electrical-value"><span id="home-bus-voltage">0.000</span><small>V</small></div><div class="operation-electrical-label">实时电压</div></div>
           <div class="operation-electrical-item"><div class="operation-electrical-value"><span id="home-bus-current">0.000</span><small>A</small></div><div class="operation-electrical-label">实时电流</div></div>
+          <div class="operation-electrical-item"><div class="operation-electrical-value"><span id="home-bat-current">0.000</span><small>A</small></div><div class="operation-electrical-label">电池端电流</div></div>
         </div>
         <div class="power-profile-buttons" aria-label="功率模式预览">
           <span class="power-profile-wrap"><button class="power-profile eco" type="button" data-profile="eco" aria-pressed="false">ECO<span class="profile-help" aria-hidden="true">?</span></button><button class="profile-config" type="button" data-config-profile="eco" aria-label="自定义ECO模式" title="自定义ECO模式"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8L4.2 7a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></span>
@@ -1969,9 +1970,10 @@ function renderTele(d){
   const chargerPower=$('charger-power'),homeTotalPower=$('home-total-power'),homeEfficiency=$('home-efficiency');
   if(chargerPower)chargerPower.textContent=totalPower.toFixed(1);
   if(homeTotalPower)homeTotalPower.textContent=totalPower.toFixed(1);
-  const homeBusVoltage=$('home-bus-voltage'),homeBusCurrent=$('home-bus-current');
+  const homeBusVoltage=$('home-bus-voltage'),homeBusCurrent=$('home-bus-current'),homeBatCurrent=$('home-bat-current');
   if(homeBusVoltage)homeBusVoltage.textContent=bv.toFixed(3);
   if(homeBusCurrent)homeBusCurrent.textContent=bi.toFixed(3);
+  if(homeBatCurrent)homeBatCurrent.textContent=ai.toFixed(3);
   let efficiency=null;
   if(flowDirection==='charge'&&Math.abs(bp)>.5)efficiency=Math.abs(ap)/Math.abs(bp)*100;
   else if(flowDirection==='discharge'&&Math.abs(ap)>.5)efficiency=Math.abs(bp)/Math.abs(ap)*100;
