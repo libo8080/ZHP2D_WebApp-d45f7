@@ -2016,9 +2016,10 @@ function renderTele(d){
   $('ring-fg').setAttribute('stroke-dashoffset', (C * (1 - soc/100)).toFixed(2));
 
   // mode
-  const mn = MODE_NAME[d.mode|0] || ('M'+d.mode);
+  const modeCode = d.mode|0;
+  const mn = MODE_NAME[modeCode] || ('M'+d.mode);
   const modeHome = $('mode-home');
-  if (modeHome) modeHome.textContent = flowDirection==='charge'?'充电中':flowDirection==='discharge'?'放电中':mn;
+  if (modeHome) modeHome.textContent = (modeCode===1||modeCode===2)?mn:flowDirection==='charge'?'充电中':flowDirection==='discharge'?'放电中':mn;
   $('mode-pill').innerHTML = '<span class="dot"></span>'+mn;
   $('mode-pill').classList.toggle('on', d.dcrun);
 
