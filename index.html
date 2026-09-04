@@ -518,6 +518,13 @@ main{max-width:760px;margin:0 auto;padding:8px 18px 18px}
 .card::before,.corner-deco{display:none}.card-title{color:#8a9591;font-size:11px;letter-spacing:.12em;margin-bottom:14px}.card-title .right{gap:8px}
 .btn{background:var(--grad);color:#fff;border-radius:13px;box-shadow:0 8px 20px rgba(64,185,170,.22);letter-spacing:.01em}
 .btn.ghost{background:#f5f8f7;color:#505956;border:1px solid #e3ebe7}.btn.warn{color:#fff}.btn.danger{color:#fff}
+/* Config backup actions: keep presets beside Open TXT; wrap evenly on phones. */
+.cfg-actions{display:grid;grid-template-columns:repeat(4,max-content) repeat(2,minmax(0,1fr));gap:8px;margin-bottom:10px;align-items:stretch}
+.cfg-actions .btn{min-width:0;min-height:40px;justify-content:center;padding:10px;font-size:12px;white-space:nowrap}
+#config-card .cfg-preset-btn{background:transparent;color:var(--green);border:1px solid var(--green);box-shadow:none}
+.cfg-actions #cfg-status{grid-column:1/-1;font-size:11px;color:var(--text-dim);line-height:1.5;overflow-wrap:anywhere}
+.cfg-actions #cfg-status:empty{display:none}
+@media(max-width:699px){.cfg-actions{grid-template-columns:repeat(4,minmax(0,1fr))}.cfg-actions .btn{padding:10px 4px}.cfg-actions .cfg-preset-btn{grid-column:span 2}}
 .chip{background:#f5f8f7;border-color:#e3ebe7;color:#65706c}.chip.on{background:#54c8b8;border-color:#54c8b8;color:#fff;box-shadow:none}
 nav.tabs{background:rgba(255,255,255,.94);border:none;box-shadow:0 -8px 30px rgba(38,83,71,.08);backdrop-filter:blur(20px);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0))}
 .tabs-inner{max-width:680px}.tab{color:#98a29e;border-radius:14px;gap:4px;padding:5px 4px;font-size:10px;letter-spacing:.01em}.tab svg{width:32px;height:32px;padding:7px;border-radius:11px;background:#f2f6f4;box-sizing:border-box}.tab.active{color:#3eb8a8;background:transparent}.tab.active svg{filter:none;background:#e8f8f4;color:#37b4a2}
@@ -961,12 +968,15 @@ html[data-theme="dark"] #connect-card .connect-hero{background:radial-gradient(c
     <!-- ===== Config Export / Import ===== -->
     <div class="card" id="config-card" style="display:none">
       <div class="card-title"><span>CONFIG BACKUP</span></div>
-      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      <div class="cfg-actions">
         <button class="btn" id="btn-export-cfg">导出配置</button>
         <button class="btn" id="btn-download-cfg" style="background:var(--violet);color:#fff;box-shadow:0 6px 16px -6px var(--violet)">下载TXT</button>
         <button class="btn ghost" id="btn-import-cfg" style="background:transparent;color:var(--cyan);border:1px solid var(--cyan);box-shadow:none">导入配置</button>
         <button class="btn ghost" id="btn-load-cfg" style="background:transparent;color:var(--green);border:1px solid var(--green);box-shadow:none">打开TXT</button>
-        <span id="cfg-status" style="font-size:11px;color:var(--text-dim);align-self:center;margin-left:4px"></span>
+        <!-- Each capacity button imports its user-supplied preset below. -->
+        <button class="btn ghost cfg-preset-btn" id="btn-cfg-5ah-tabless" type="button">5ah全极耳通用配置</button>
+        <button class="btn ghost cfg-preset-btn" id="btn-cfg-6ah-tabless" type="button">6ah全极耳通用配置</button>
+        <span id="cfg-status" role="status"></span>
       </div>
       <input type="file" id="cfg-file-input" accept=".txt,.json" style="display:none">
       <div id="import-area" style="display:none">
@@ -2525,6 +2535,7 @@ async function onSettingChange(el){
 /* ===================== Home power profiles ===================== */
 let powerProfileBusy=false;
 const POWER_PROFILE_STORAGE_KEY='zhp2d-power-profiles-v1';
+const POWER_MODE_INPUT_CURRENT_MA=20000;
 const POWER_PROFILE_DEFAULTS={
   eco:{inputPower:30,outputPower:30,inputVoltage:3,pd9:true,pd12:true,pd15:false,pd20:false},
   normal:{inputPower:65,outputPower:65,inputVoltage:5,pd9:true,pd12:true,pd15:true,pd20:true},
@@ -2541,15 +2552,20 @@ function loadPowerProfiles(){
   return Object.fromEntries(Object.keys(POWER_PROFILE_DEFAULTS).map(name=>[name,normalizePowerProfile(stored[name]||(name==='eco'?legacy:null),POWER_PROFILE_DEFAULTS[name])]));
 }
 let powerProfileConfigs=loadPowerProfiles(),editingPowerProfile='eco';
-function powerProfileValues(name){const p=powerProfileConfigs[name]||POWER_PROFILE_DEFAULTS[name];return {temp_control_input_power_default_power:p.inputPower,temp_control_output_power_default_power:p.outputPower,input_priority_voltage:p.inputVoltage,sw6306_pd_en:true,sw6306_pd_9v:p.pd9,sw6306_pd_12v:p.pd12,sw6306_pd_15v:p.pd15,sw6306_pd_20v:p.pd20};}
+function powerProfileValues(name){
+  const p=powerProfileConfigs[name]||POWER_PROFILE_DEFAULTS[name];
+  const values={temp_control_input_power_default_power:p.inputPower,temp_control_output_power_default_power:p.outputPower,input_priority_voltage:p.inputVoltage,sw6306_pd_en:true,sw6306_pd_9v:p.pd9,sw6306_pd_12v:p.pd12,sw6306_pd_15v:p.pd15,sw6306_pd_20v:p.pd20};
+  if(name==='power')values.temp_control_input_power_default_current=POWER_MODE_INPUT_CURRENT_MA;
+  return values;
+}
 function refreshPowerProfileTips(){
-  Object.entries(powerProfileConfigs).forEach(([name,p])=>{const button=document.querySelector(`.power-profile[data-profile="${name}"]`),tip=button&&button.querySelector('.profile-help'),voltage=['5V','9V','10V','12V','15V','20V'][p.inputVoltage],slots=['5V'].concat(p.pd9?['9V']:[],p.pd12?['12V']:[],p.pd15?['15V']:[],p.pd20?['20V']:[]).join('、'),label=name.toUpperCase(),text=`充电上限${p.inputPower}W；放电上限${p.outputPower}W；输入优先${voltage}；PD固定档位：${slots}。`;
+  Object.entries(powerProfileConfigs).forEach(([name,p])=>{const button=document.querySelector(`.power-profile[data-profile="${name}"]`),tip=button&&button.querySelector('.profile-help'),voltage=['5V','9V','10V','12V','15V','20V'][p.inputVoltage],slots=['5V'].concat(p.pd9?['9V']:[],p.pd12?['12V']:[],p.pd15?['15V']:[],p.pd20?['20V']:[]).join('、'),label=name.toUpperCase(),currentTip=name==='power'?`充电电流上限${POWER_MODE_INPUT_CURRENT_MA}mA（${POWER_MODE_INPUT_CURRENT_MA/1000}A）；`:'',text=`充电上限${p.inputPower}W；放电上限${p.outputPower}W；${currentTip}输入优先${voltage}；PD固定档位：${slots}。`;
     if(tip)tip.dataset.tip=text;if(button)button.setAttribute('aria-label',label+'模式：'+text);
   });
 }
 function openPowerProfileModal(name){
   editingPowerProfile=POWER_PROFILE_DEFAULTS[name]?name:'eco';const p=powerProfileConfigs[editingPowerProfile],label=editingPowerProfile.toUpperCase();
-  $('power-profile-title').textContent=label+' 模式设置';$('power-profile-subtitle').textContent='保存后，下一次点击 '+label+' 时统一下发到设备';
+  $('power-profile-title').textContent=label+' 模式设置';$('power-profile-subtitle').textContent='保存后，下一次点击 '+label+' 时统一下发到设备'+(editingPowerProfile==='power'?`；充电电流上限同时设为${POWER_MODE_INPUT_CURRENT_MA}mA（${POWER_MODE_INPUT_CURRENT_MA/1000}A）`:'');
   $('profile-input-power').value=p.inputPower;$('profile-output-power').value=p.outputPower;$('profile-input-voltage').value=String(p.inputVoltage);
   $('profile-pd-9v').checked=p.pd9;$('profile-pd-12v').checked=p.pd12;$('profile-pd-15v').checked=p.pd15;$('profile-pd-20v').checked=p.pd20;
   $('power-profile-modal').classList.add('show');$('power-profile-modal').setAttribute('aria-hidden','false');
@@ -2729,6 +2745,10 @@ var KEY_MAP = (function(){
   return map;
 })();
 var lastExport = '';
+// User-supplied configurations, confirmed 2026-09-04. Keep both payloads verbatim.
+const CONFIG_PRESET_5AH = 'XxQFFaFCMKDIUICtMbzyNjUMYAZFCibkYyoGW+iCWqQAAFKqqqqqoqnCqiqfP8fQCbAAIAABCoA=';
+const CONFIG_PRESET_6AH = 'XxQFFaFCMKDIUICtMbzyNjUMYAZFCibkYyoGW+iCWqQAAFKqqqqqoqnCqiqfP8nEEOAAIAABCoA=';
+let configImportBusy = false;
 
 function showConfigCard(){
   var el = $('config-card'); if (el) el.style.display = connected ? 'block' : 'none';
@@ -2872,9 +2892,11 @@ function hideImportArea(){
   $('cfg-textarea').value = '';
 }
 
-async function applyConfig(){
-  if (!connected) { logW('请先连接设备'); return; }
-  var raw = $('cfg-textarea').value.trim();
+async function applyConfig(preset, presetName){
+  if (configImportBusy) return;
+  if (!connected || !rxChr) { $('cfg-status').textContent = '请先连接设备'; logW('请先连接设备'); return; }
+  var raw = (typeof preset === 'string' ? preset : $('cfg-textarea').value).trim();
+  var label = typeof presetName === 'string' ? presetName + '：' : '';
   if (!raw) { $('cfg-status').textContent = '请先粘贴配置'; return; }
 
   var vals;
@@ -2918,27 +2940,48 @@ async function applyConfig(){
     if (vals[i] !== null && vals[i] !== undefined) entries.push([KEY_MAP[i], vals[i]]);
   }
   if (!entries.length){ $('cfg-status').textContent = '未找到有效配置项'; return; }
-  $('cfg-status').textContent = '导入中...';
+  configImportBusy = true;
+  const targetRx = rxChr;
+  const controls = Array.from(document.querySelectorAll('#config-card button, #cfg-textarea, #cfg-file-input'));
+  const disabledBefore = controls.map(control=>control.disabled);
+  controls.forEach(control=>{ control.disabled = true; });
+  $('config-card').setAttribute('aria-busy', 'true');
+  $('cfg-status').textContent = label + '导入中 0/' + entries.length + '...';
   var ok = 0, fail = 0;
-  for (var i = 0; i < entries.length; i++){
-    var k = entries[i][0], v = entries[i][1];
-    try{
-      await call('set','config/'+k, {value:v});
-      valMap[k] = v;
-      ok++;
-    }catch(e){ fail++; logW('IMPORT '+k+': '+e); }
-    $('cfg-status').textContent = '导入中 '+(ok+fail)+'/'+entries.length+'...';
+  try{
+    for (var i = 0; i < entries.length; i++){
+      if (!connected || rxChr !== targetRx) break;
+      var k = entries[i][0], v = entries[i][1];
+      try{
+        await call('set','config/'+k, {value:v});
+        valMap[k] = v;
+        ok++;
+      }catch(e){ fail++; logW('IMPORT '+k+': '+e); }
+      $('cfg-status').textContent = label + '导入中 '+(ok+fail)+'/'+entries.length+'...';
+    }
+    var remaining = entries.length - ok - fail;
+    if (fail || remaining){
+      $('cfg-status').textContent = label + '导入未完成：成功 '+ok+'，失败 '+fail+'，未写入 '+remaining+' / '+entries.length+' 项';
+      logW(label + '配置导入未完成: '+ok+'/'+entries.length);
+    } else {
+      $('cfg-status').textContent = label + '\u2713 已导入 '+ok+' / '+entries.length+' 项';
+      logI(label + '配置导入完成: '+ok+'/'+entries.length);
+      hideImportArea();
+    }
+    if (connected && rxChr === targetRx && typeof buildSettings === 'function') await buildSettings();
+  } finally {
+    configImportBusy = false;
+    controls.forEach((control,i)=>{ control.disabled = disabledBefore[i]; });
+    $('config-card').removeAttribute('aria-busy');
   }
-  $('cfg-status').textContent = '\u2713 成功 '+ok + (fail?' 失败 '+fail:'') + ' / '+entries.length+' 项';
-  logI('配置导入完成: '+ok+'/'+entries.length);
-  if (typeof buildSettings === 'function') buildSettings();
-  hideImportArea();
 }
 
 $('btn-export-cfg').onclick = exportConfig;
 $('btn-import-cfg').onclick = showImportArea;
 $('btn-apply-cfg').onclick = applyConfig;
 $('btn-cancel-cfg').onclick = hideImportArea;
+$('btn-cfg-5ah-tabless').onclick = ()=>applyConfig(CONFIG_PRESET_5AH, '5ah全极耳通用配置');
+$('btn-cfg-6ah-tabless').onclick = ()=>applyConfig(CONFIG_PRESET_6AH, '6ah全极耳通用配置');
 
 function downloadCfg(){
   if (!lastExport){
